@@ -23,6 +23,6 @@ class RestaurantTests {
     public void information(){
         Restaurant restaurant = new Restaurant(1004L, "Bob zip", "Seoul");
 
-        assertThat(restaurant.getInformaiton(),is( "Bob zip in Seoul"));
+        assertThat(restaurant.getInformation(),is( "Bob zip in Seoul"));
     }
 }
