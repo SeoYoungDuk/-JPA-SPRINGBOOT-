@@ -66,13 +66,21 @@ class RestaurantServiceTest {
     }
 
     @Test
-    public void getRestaurant(){
+    public void getRestaurantWithExisted(){
         Restaurant restaurant = restaurantService.getRestaurant(1004L);
 
         assertThat(restaurant.getId(), is(1004L));
 
         MenuItem menuItem = restaurant.getMenuItems().get(0);
         assertThat(menuItem.getName(), is ("Kimchi"));
+    }
+    @Test
+    public void getRestaurantWithNotExisted(){
+
+        RestaurantNotFoundException thrown = assertThrows(RestaurantNotFoundException.class,()->{
+            restaurantService.getRestaurant(404L);
+        });
+
     }
 
     @Test
