@@ -2,8 +2,6 @@ package kr.co.fastcampus.eatgo.application;
 
 import kr.co.fastcampus.eatgo.domain.Region;
 import kr.co.fastcampus.eatgo.domain.RegionRepository;
-import org.aspectj.lang.annotation.Before;
-import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -14,7 +12,6 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -34,7 +31,7 @@ class RegionServiceTests {
     }
 
     @Test
-    public void getRegions(){
+    public void getRegions() {
         List<Region> mockRegions = new ArrayList<>();
         mockRegions.add(Region.builder().name("Seoul").build());
 
@@ -43,15 +40,6 @@ class RegionServiceTests {
         List<Region> regions = regionService.getRegions();
 
         Region region = regions.get(0);
-        assertThat(region.getName(), is("Seoul"));
-    }
-
-    @Test
-    public void addRegion(){
-        Region region = regionService.addRegion("Seoul");
-
-        verify(regionRepository).save(any());
-
         assertThat(region.getName(), is("Seoul"));
     }
 

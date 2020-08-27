@@ -18,7 +18,6 @@ import static org.hamcrest.core.StringContains.containsString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -46,18 +45,5 @@ class RegionControllerTests {
         .andExpect(content().string(containsString("Seoul")));
     }
 
-    @Test
-    public void create() throws Exception {
-        Region region = Region.builder().name("Seoul").build();
-
-        given(regionService.addRegion("Seoul")).willReturn(region);
-        mvc.perform(post("/regions")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("   {\"name\" : \"Seoul\"}\n"))
-                .andExpect(status().isCreated())
-                .andExpect(content().string("{}"));
-
-        verify(regionService).addRegion("Seoul");
-    }
 
 }
