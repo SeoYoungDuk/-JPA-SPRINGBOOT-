@@ -3,6 +3,7 @@ package kr.co.fastcampus.eatgo.application;
 
 import kr.co.fastcampus.eatgo.domain.User;
 import kr.co.fastcampus.eatgo.domain.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,8 +18,12 @@ public class UserService {
 
     UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User registerUser(String email, String name, String password) {
@@ -27,7 +32,7 @@ public class UserService {
             throw new EmailExistedException(email);
         }
 
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
         String encodedPassword = passwordEncoder.encode(password);
 
         User user = User.builder()
@@ -38,5 +43,15 @@ public class UserService {
                 .level(1L)
                 .build();
         return userRepository.save(user);
+    }
+    public User authenticate(String email, String password) {
+        //TODO: ...
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new EmailNotExistedException(email));
+
+        if(!passwordEncoder.matches(password, user.getPassword())){
+            throw new PasswordWrongException();
+        }
+
+        return user;
     }
 }
